@@ -1,4 +1,4 @@
-Métodos de Busca Genéticos
+# Métodos de Busca Genéticos
 
 Os métodos de busca genética em IA são técnicas inspiradas nos processos de evolução natural e seleção natural, 
 como a reprodução, mutação, recombinação e seleção. 
