@@ -9,6 +9,12 @@ class Cromossomo:
 
 
     def calcular_aptidao(self, estado_final):
+        """ -> Calcula a aptidao para cada Cromossomo com base em restrições
+        Args:
+            estado_final (string): estado final desejado '123456789'
+        Returns:
+            int: retorna uma nota de aptidao (penalidade) mais proximo de zero melhor
+        """
         nota = 0
 
         #Verifica se o numero é maior que o resto (ordem crescente)
@@ -26,10 +32,12 @@ class Cromossomo:
         return nota
 
     
+    #Reescreve o ToString
     def __str__(self):
         return f'{self.rota} - {self.aptidao}'
 
 
+    #Reescreve o equals
     def __eq__(self, other):
         if isinstance(other, Cromossomo):
             return self.rota == other.rota
@@ -38,6 +46,12 @@ class Cromossomo:
 
     @staticmethod
     def gerar_populacao(populacao, tamanho_populacao, estado_final):
+        """ -> Funcao que gera varios individuos e adiciona em uma lista populacao
+        Args:
+            populacao (list): lista onde os individuos serao armazenados
+            tamanho_populacao (int): tamanho da lista
+            estado_final (string): estado que se quer chegar
+        """
         for i in range(tamanho_populacao):
             rota_gerada = Util.gerar_rota(len(estado_final))
             individuo = Cromossomo(rota_gerada, estado_final)
@@ -46,6 +60,11 @@ class Cromossomo:
     
     @staticmethod
     def exibir_populacao(populacao, numero_geracao):
+        """ -> Mostra a lista populacao
+        Args:
+            populacao (list): lista de individuos que sera exibida
+            numero_geracao (int): numero da geracao
+        """
         print(f'Geracao numero: {numero_geracao}')
         for individuo in populacao:
             print(individuo)
@@ -53,6 +72,12 @@ class Cromossomo:
 
     @staticmethod
     def selecionar(populacao, nova_populacao, taxa_de_selecao):
+        """Seleciona os individuos que irao para a proxima geracao
+        Args:
+            populacao (list): lista com os individuos
+            nova_populacao (list): lista com os individuos ja selecionados 
+            taxa_de_selecao (int): porcentagem da populacao total a ser selecionada
+        """
         #Definir quantos serao selecionados
         #len(populacao)             - 100
         #quantidade_selecionados    - taxa_selecao
@@ -98,13 +123,19 @@ class Cromossomo:
 
     @staticmethod
     def reproduzir(populacao, nova_populacao, taxa_reproducao, estado_final):
+        """ -> Reproduz os individuos que nao foram selecionados
+        Args:
+            populacao (list): lista com os individuos
+            nova_populacao (list): lista com os individuos ja reproduzidos
+            taxa_reproducao (int): porcentagem que nao vai ser selecionada (sera reproduzida)
+            estado_final (string): estado desejado
+        """
         #Definir a quantidade de reproduzidos
         #len(populacao)             - 100
         #quantidade_reproduzidos    - taxa_reproducao
         quantidade_reproduzidos = int(len(populacao) * taxa_reproducao / 100)
 
         for i in range(int(quantidade_reproduzidos / 2) + 1):
-            #Sorteia um pai entre os primeiros 20% da populacao (Mais aptos)
             cromossomo_pai = populacao[random.randrange(len(populacao))]
 
             while True:
@@ -116,12 +147,14 @@ class Cromossomo:
             pai = cromossomo_pai.rota
             mae = cromossomo_mae.rota
 
+            #Mistura as rotas do pai e mae
             primeira_metade_pai = pai[0 : int(len(pai) / 2)]
             segunda_metade_pai = pai[int(len(pai) / 2) : len(pai)]
 
             primeira_metade_mae = mae[0 : int(len(mae) / 2)]
             segunda_metade_mae = mae[int(len(mae) / 2) : len(mae)]
 
+            #Gera 2 novos filhos
             filho1 = primeira_metade_pai + segunda_metade_mae
             filho2 = primeira_metade_mae + segunda_metade_pai
 
@@ -136,6 +169,11 @@ class Cromossomo:
 
     @staticmethod
     def mutar(populacao, estado_final):
+        """ -> Faz mutacoes na populacao a cada n geracoes, evita ficar estagnado
+        Args:
+            populacao (list): lista com os individuos
+            estado_final (string): estado desejado
+        """
         #Quantidade que vai mutar
         quantidade_mutantes = random.randrange(int(len(populacao)))
         while quantidade_mutantes > 0:
@@ -159,4 +197,3 @@ class Cromossomo:
             #Substituia a rota antiga pela nova rota mutada
             populacao[posicao_mutante] = mutante
             quantidade_mutantes -= 1
-
