@@ -92,7 +92,9 @@ Inteligencia Artificial
     progenitor("Irma","Silvio").
     progenitor("Vilma","Angela").
     progenitor("Vilma","Solange").
-    progenitor("Vicente", "Vanessa")
+    progenitor("Vicente", "Vanessa").
+    progenitor("Irma","Marta").
+    progenitor("Marta","Leonardo").
 
     avo(Avo, Neta) :-
         progenitor(Avo, Pai),
@@ -107,11 +109,8 @@ Inteligencia Artificial
         irmao(Tio,Pai),
         progenitor(Pai,Sobrinho).
 
-    primo(P1, P2):-
-        progenitor(Pai, P1),
-        progenitor(Pai, P2),
+    primo(P1,P2):-
+        progenitor(Pai1, P1),
+        progenitor(Pai2, P2),
+        irmao(Pai1, Pai2).
     
-    
-    
-    
-
